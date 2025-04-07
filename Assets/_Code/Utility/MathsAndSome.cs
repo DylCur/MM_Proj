@@ -1,0 +1,124 @@
+using System;
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace MathsAndSome{
+    public static class mas
+    {
+
+        // This takes two Vector 3s and a float t as an input and returns the linear interpolation of the two vectors at (t*100)% 
+        public static Vector3 LerpVectors(Vector3 v1, Vector3 v2, float a){
+            return new Vector3(Mathf.Lerp(v1.x, v2.x, a),Mathf.Lerp(v1.y, v2.y, a),Mathf.Lerp(v1.z, v2.z, a)    );
+        }
+
+        // This returns the absolute value of a vector (All numbers are positive)
+        public static Vector3 AbsVector(Vector3 v3){
+            // If the vector is already all positive, there is no need to compute the abs of it
+            if(v3.x > 0 && v3.y > 0 && v3.z > 0){
+                return v3;
+            }
+
+            return new Vector3(Math.Abs(v3.x),Math.Abs(v3.y),Math.Abs(v3.z));
+        }
+
+        // This multiplies n vectors where 0 < n <= infinity
+        public static Vector3 MultiplyVectors(List<Vector3> vectors){
+            Vector3 v3 = vectors[0];
+            for(int i = 0; i < vectors.Count; i++){
+                if(i != 0){
+                    v3 = new Vector3(v3.x * vectors[i].x, v3.y * vectors[i].y, v3.z * vectors[i].z);
+                }
+            }
+            return v3;
+        }
+        
+        // This divides n vectors where 0 < n <= infinity
+        public static Vector3 DivideVectors(List<Vector3> vectors){
+            Vector3 v3 = vectors[0];
+            for(int i = 0; i < vectors.Count; i++){
+                if(i != 0){
+                    v3 = new Vector3(v3.x / vectors[i].x, v3.y / vectors[i].y, v3.z / vectors[i].z);
+                }
+            }
+            return v3;
+        }
+
+        // This detects whether a target object is within a radius around a vector 3 point
+        public static bool isInRadiusToPoint(Vector3 inputPosition, Vector3 targetObj, string targetTag, float range){
+
+            /*
+                This needs to check to see if inputPosition is around "point" at a distance <= "range"           
+            */
+
+            if(Physics.Raycast(inputPosition, targetObj-inputPosition, out RaycastHit hit, range)){
+                Debug.Log("Truth Nuke!");
+                if(hit.collider.tag == targetTag){
+                    return true;
+                }
+            }
+
+            // Vector2 direction = new Vector2(-1, -1);
+
+            // // This scans through EVERY possible angle on 0.1f increments
+            // while(direction.x < 1){
+            //     direction = new Vector2(direction.x + 0.1f, -1);
+            //     while(direction.y < 1){
+            //         direction = new Vector2(direction.x, direction.y + 0.1f);
+
+            //         if(Physics.Raycast(inputPosition, new Vector2(direction.x, direction.y), out RaycastHit hit, range)){
+            //             if(hit.collider.tag == targetTag){
+            //                 Debug.Log("Truth Nuke!");
+            //                 return true;  
+            //             }
+            //         }
+            //     }
+            // }
+
+            Debug.Log("Fálse");
+            return false;
+
+        }
+
+
+        public static Vector3 GetNormalFromListOfColliders(List<Collider> colliders){
+            Vector3 normal = Vector3.zero;
+
+            foreach(Collider col in colliders){
+                if(normal.x != 1){
+                    normal += new Vector3(-col.transform.right.x,0,0);
+                }
+                
+                if(normal.y != 1){
+                    normal += new Vector3(0,-col.transform.right.y,0);
+                }
+
+                if(normal.z != 1){
+                    normal += new Vector3(0,0,-col.transform.right.z);
+                }
+
+            }
+
+            return normal;
+        }
+
+        public static Vector3 INormal(Collider col){
+            return -col.transform.forward;
+        }
+
+        public static Vector3 InvertVector(Vector3 vector){
+            return -vector;
+        }
+
+        public static Collider[] GetCollidersInArea(Transform transform){
+            return Physics.OverlapBox
+            (
+                transform.position - (transform.localScale/2),
+                new Vector3(transform.localScale.x * 1.1f,transform.localScale.y, transform.localScale.z * 1.1f)
+            );
+        }
+
+    }
+
+}
+
+
