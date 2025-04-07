@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "The Meta Menaces Unity 6.sln"
+    "dotnet.defaultSolution": "MM_Proj.sln"
 }
