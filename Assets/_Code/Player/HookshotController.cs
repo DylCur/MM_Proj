@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 using MathsAndSome;
+using Globals;
 
 public class HookshotController : MonoBehaviour
 {
@@ -67,7 +68,7 @@ public class HookshotController : MonoBehaviour
             Hook();
         }
         if(enemy != null){
-            if(mas.isInRadiusToPoint(enemy.transform.position,transform.position,"Player", truthNukeRange)){
+            if(mas.isInRadiusToPoint(enemy.transform.position,transform.position,glob.playerTag, truthNukeRange)){
                 shouldBreak=true;
             }
         }

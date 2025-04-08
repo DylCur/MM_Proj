@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 using MathsAndSome;
+using Globals;
 
 
 // [RequireComponent(typeof(NavMeshAgent))]
@@ -55,7 +56,7 @@ public abstract class BaseEnemy : MonoBehaviour
     protected void Start(){
         attackRange = new Vector3(attackRange.x, attackRange.y, attackRange.x);
         agent = GetComponent<NavMeshAgent>();
-        player = GameObject.FindGameObjectWithTag("Player");
+        player = GameObject.FindGameObjectWithTag(glob.playerTag);
     }
 
     // This is the default, this will be different for the menace
