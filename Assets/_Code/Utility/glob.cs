@@ -4,5 +4,6 @@ namespace Globals{
     public static class glob
     {
         public const string playerTag = "Player";
+        public const float maxAiCheckRange = 10000f;
     }
 }

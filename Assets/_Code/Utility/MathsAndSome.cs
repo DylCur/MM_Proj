@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using Globals;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace MathsAndSome{
@@ -115,6 +117,23 @@ namespace MathsAndSome{
                 transform.position - (transform.localScale/2),
                 new Vector3(transform.localScale.x * 1.1f,transform.localScale.y, transform.localScale.z * 1.1f)
             );
+        }
+
+        public static Vector3 PlayerDistance(GameObject player, GameObject gameObject){
+            return AbsVector(player.transform.position - gameObject.transform.position);
+        }
+
+        public static PlayerController GetPlayer(){
+            return GameObject.FindGameObjectWithTag(glob.playerTag).GetComponent<PlayerController>();
+        }
+
+        public static RaycastHit ShootPlayer(GameObject player, Vector3 origin){
+            if(Physics.Raycast(origin, player.transform.position-origin, out RaycastHit hit,glob.maxAiCheckRange)){
+                return hit;
+            }
+            
+            // If this fails then hit.collider will be null
+            return new RaycastHit();
         }
 
     }
