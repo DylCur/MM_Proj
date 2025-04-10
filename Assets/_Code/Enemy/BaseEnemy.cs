@@ -56,7 +56,7 @@ public abstract class BaseEnemy : MonoBehaviour
     protected void Start(){
         attackRange = new Vector3(attackRange.x, attackRange.y, attackRange.x);
         agent = GetComponent<NavMeshAgent>();
-        player = GameObject.FindGameObjectWithTag(glob.playerTag);
+        player = GameObject.FindGameObjectWithTag(glob.playerTag);  
     }
 
     // This is the default, this will be different for the menace
@@ -69,7 +69,6 @@ public abstract class BaseEnemy : MonoBehaviour
         );
 
     }
-
 
     protected Vector3 PlayerDistance(){
         return mas.AbsVector(player.transform.position - gameObject.transform.position);
