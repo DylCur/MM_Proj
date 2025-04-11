@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using Globals;
 using MathsAndSome;
@@ -33,7 +34,7 @@ public class SwordEnemy : DefaultEnemy
         || playerDistance.z > detectionRange
         || playerDistance.y > maxVerticalDistance;
 
-        if(s != eState.hooked){
+        if(s != eState.hooked && !roaming){
             return notInRoamRange;
         }
         
@@ -54,16 +55,12 @@ public class SwordEnemy : DefaultEnemy
         || playerDistance.z <= detectionRange
         || playerDistance.y <= maxVerticalDistance;
 
-        if(s != eState.hooked){
+        if(s != eState.hooked && !hunting){
             return notInAttackRange && inRoamRange;
         }
 
         return false;
-    }
-
-
-   
-    
+    }  
 
     public override void Roam()
     {
@@ -121,7 +118,12 @@ public class SwordEnemy : DefaultEnemy
 
     IEnumerator GetPlayer(){
         goingToPlayer = true;
-        agent.SetDestination(pc.transform.position);
+        //
+            agent.SetDestination(pc.transform.position);
+       // }
+       // catch(Exception e){
+            
+      //  }
         yield return new WaitForSeconds(goToPlayerTime);
         goingToPlayer = false;
     }
