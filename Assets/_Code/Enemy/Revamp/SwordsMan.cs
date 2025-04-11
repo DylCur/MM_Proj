@@ -1,0 +1,72 @@
+using System.Collections;
+using MathsAndSome;
+using UnityEngine;
+using UnityEngine.AI;
+
+public class SwordsMan : BaseEnemy
+{
+
+    public override IEnumerator Seek()
+    {
+        Debug.Log("Seek");
+        seeking = true;
+
+        Vector3 pd = mas.PlayerDistance(player, gameObject);
+        
+        bool playerInRange = pd.x <= seekRange &&
+        pd.z <= seekRange &&
+        pd.y <= maxYRange;
+
+        if(playerInRange){
+            s = EState.hunting;
+        }
+
+        yield return new WaitForSeconds(0.1f);
+
+        seeking = false;
+    }
+    
+    public override IEnumerator Hunt()
+    {
+        Debug.Log("Hunt");
+        hunting = true;
+
+        agent.SetDestination(player.transform.position);
+
+        Vector3 pd = mas.PlayerDistance(player, gameObject);
+        
+        bool playerInRange = pd.x <= attackRange &&
+        pd.z <= attackRange &&
+        pd.y <= maxYRange;
+
+        if(playerInRange){
+            s = EState.attacking;
+        }
+
+        yield return new WaitForSeconds(0.1f);
+
+        hunting = false;
+    }
+    
+    public override IEnumerator Attack()
+    {
+        Debug.Log("Attack");
+        attacking = true;
+
+        agent.SetDestination(transform.position);
+        
+        Vector3 pd = mas.PlayerDistance(player, gameObject);
+
+        bool playerInRange = pd.x <= attackRange &&
+        pd.z <= attackRange &&
+        pd.y <= maxYRange;
+
+        if(!playerInRange){
+            s = EState.hunting;
+        }
+
+        yield return new WaitForSeconds(0.1f);
+
+        attacking = false;
+    }
+}
