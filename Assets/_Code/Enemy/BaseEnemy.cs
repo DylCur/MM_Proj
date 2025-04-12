@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using Globals;
 using UnityEngine;
@@ -61,6 +62,15 @@ public abstract class BaseEnemy : MonoBehaviour
     public abstract void EnemyStart();
 
     void Start(){
+
+        try{
+            RespawnManager.Ins.entities.Add(gameObject);  
+        }
+
+        catch(Exception e){
+            Debug.LogError($"Caught exception {e} while attempting to add {gameObject.name} from the Entities List");
+        }
+
         player=GameObject.FindGameObjectWithTag(glob.playerTag);
         EnemyStart();
         StartCoroutine(ActionLoop());

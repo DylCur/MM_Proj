@@ -30,7 +30,9 @@ public class Menace : BaseEnemy
 
     void ShootFireball(){
         if(fireballs.Count < 5){
-            fireballs.Add(Instantiate(fireball, transform.position, Quaternion.identity));
+            GameObject fb = Instantiate(fireball, transform.position, Quaternion.identity);
+            fb.GetComponent<FireballController>().parent = GetComponent<CapsuleCollider>();
+            fireballs.Add(fb);
         }
     }
 

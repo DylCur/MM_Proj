@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using Globals;
-using Unity.Mathematics;
 using UnityEngine;
 
 namespace MathsAndSome{
@@ -142,6 +141,18 @@ namespace MathsAndSome{
 
         public static float AddVectorComponents(Vector3 v){
             return v.x+v.y+v.z;
+        }
+
+        public static Quaternion VectorsToQuaternion(Vector3 v1, Vector3 v2){
+            
+            Vector3 v3 = new Vector3
+            (1/Mathf.Sin((v1.y-v2.y)/(v1.x-v2.x)),
+            1/Mathf.Sin((v1.z-v2.z)/(v1.y-v2.y)),
+            0);
+
+            return Quaternion.Euler(v3);
+
+
         }
 
     }

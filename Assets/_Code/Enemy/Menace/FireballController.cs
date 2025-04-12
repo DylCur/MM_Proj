@@ -1,4 +1,6 @@
+using System;
 using System.Collections;
+using Globals;
 using MathsAndSome;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -18,15 +20,17 @@ public class FireballController : MonoBehaviour
     [Header("Parameters")]
     public float speed = 10f;
     public float maxHomingRange = 10f;
+    public FBMT mt = FBMT.forward;
+    Vector3 direction;
+
 
     Rigidbody rb;
     Vector3 playerDistance;
     GameObject player;
-    FBMT mt = FBMT.forward;
+    [HideInInspector] public Collider parent;
 
     public IEnumerator MoveForward(Vector3 r /* Rotation */){
-        Vector3.RotateTowards(transform.position, r, 2*Mathf.PI, 3f);
-        rb.linearVelocity = transform.forward * speed;
+        rb.linearVelocity = r * speed;
         yield return new WaitForSeconds(0.1f);
         StartCoroutine(MoveForward(r));
     }
@@ -34,13 +38,15 @@ public class FireballController : MonoBehaviour
     public IEnumerator HomeToPlayer(){
         playerDistance = mas.PlayerDistance(player, gameObject);
         float distance = mas.AddVectorComponents(playerDistance);
-
+    
         if(distance > maxHomingRange){
             // Idk what the numbers in rotate towards are but i do know what a radian is
-            transform.rotation = mas.v3q(Vector3.RotateTowards(transform.position, player.transform.position, 2*Mathf.PI, 3f));
+            // transform.rotation = mas.VectorsToQuaternion(transform.position, player.transform.position);
+            // transform.rotation = mas.v3q(Vector3.RotateTowards(transform.position, player.transform.position, 2*Mathf.PI, 1f));
+            direction = -(transform.position - player.transform.position).normalized;
         }
 
-        rb.linearVelocity = transform.forward * speed;
+        rb.linearVelocity = direction * speed;
         yield return new WaitForSeconds(0.1f);
         StartCoroutine(HomeToPlayer());
         
@@ -50,12 +56,16 @@ public class FireballController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         player = mas.GetPlayer().gameObject;
 
+        direction = Vector3.zero;
+
         if(mt == FBMT.forward){
-            StartCoroutine(MoveForward(player.transform.position));
+            StartCoroutine(MoveForward(-(transform.position - player.transform.position).normalized));
         }
         else if(mt == FBMT.homing){
             StartCoroutine(HomeToPlayer());
         }
+
+        RespawnManager.Ins.entities.Add(gameObject);
 
         DestroyObj(15f);
     }
@@ -72,13 +82,42 @@ public class FireballController : MonoBehaviour
         else{
             Destroy(gameObject);    
         }
+
+        try{
+            RespawnManager.Ins.entities.Remove(gameObject);
+        }
+
+        catch(Exception e){
+            Debug.LogError($"Caught exception {e} while attempting to remove {gameObject.name} from the Entities List");
+        }
+
     }
 
-    void OnCollisionEnter(Collision other){
-        StartCoroutine(DestroyObj(0f));
+    void OnTriggerEnter(Collider other){
+        
+        if(other.tag == glob.playerTag){
+            
+            CombatController cc = other.GetComponent<CombatController>();
+            // No reason it should be null other than i got a bit silly
+            if(cc!=null){
+                cc.TakeDamage(10);
+            }
+
+            StartCoroutine(DestroyObj(0f));
+        }
+
+        // Check to see if the other is a fireball
+        if(other.GetComponent<FireballController>() == null){
+            if(other != parent){
+                StartCoroutine(DestroyObj(0f));
+            }
+        }
+        
+        
     }
 
-    public FireballController(FBMT moveType){
+    public FireballController(FBMT moveType, Collider p){
         mt = moveType;
+        parent = p;
     }
 }
