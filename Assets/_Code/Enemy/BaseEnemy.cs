@@ -31,6 +31,11 @@ public abstract class BaseEnemy : MonoBehaviour
     public abstract IEnumerator Hunt();
     public abstract IEnumerator Attack();
 
+    public abstract bool inAttackRange();
+    public abstract bool inHuntRange();
+
+    public float attackTime = 0.2f;
+
     [HideInInspector] public GameObject player;
 
     IEnumerator ActionLoop(){

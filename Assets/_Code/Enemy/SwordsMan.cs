@@ -13,18 +13,30 @@ public class SwordsMan : BaseEnemy
         agent = GetComponent<NavMeshAgent>();
     }
 
+    public override bool inHuntRange()
+    {
+        Vector3 pd = mas.PlayerDistance(player, gameObject);
+        
+        return pd.x <= seekRange &&
+        pd.z <= seekRange &&
+        pd.y <= maxYRange;
+    }
+
+    public override bool inAttackRange()
+    {
+        Vector3 pd = mas.PlayerDistance(player, gameObject);
+        
+        return pd.x <= attackRange &&
+        pd.z <= attackRange &&
+        pd.y <= maxYRange;
+    }
+
     public override IEnumerator Seek()
     {
         Debug.Log("Seek");
         seeking = true;
 
-        Vector3 pd = mas.PlayerDistance(player, gameObject);
-        
-        bool playerInRange = pd.x <= seekRange &&
-        pd.z <= seekRange &&
-        pd.y <= maxYRange;
-
-        if(playerInRange){
+        if(inHuntRange()){
             s = EState.hunting;
         }
 
@@ -40,13 +52,7 @@ public class SwordsMan : BaseEnemy
 
         agent.SetDestination(player.transform.position);
 
-        Vector3 pd = mas.PlayerDistance(player, gameObject);
-        
-        bool playerInRange = pd.x <= attackRange &&
-        pd.z <= attackRange &&
-        pd.y <= maxYRange;
-
-        if(playerInRange){
+        if(inAttackRange()){
             s = EState.attacking;
         }
 
@@ -72,7 +78,7 @@ public class SwordsMan : BaseEnemy
             s = EState.hunting;
         }
 
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(attackTime);
 
         attacking = false;
     }

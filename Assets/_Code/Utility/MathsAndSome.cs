@@ -136,6 +136,14 @@ namespace MathsAndSome{
             return new RaycastHit();
         }
 
+        public static Quaternion v3q(Vector3 v3){
+            return Quaternion.Euler(v3.x,v3.y,v3.z);
+        }
+
+        public static float AddVectorComponents(Vector3 v){
+            return v.x+v.y+v.z;
+        }
+
     }
 
 }
