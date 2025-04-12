@@ -6,6 +6,13 @@ using UnityEngine.AI;
 public class SwordsMan : BaseEnemy
 {
 
+    [HideInInspector] public NavMeshAgent agent;
+
+    public override void EnemyStart()
+    {
+        agent = GetComponent<NavMeshAgent>();
+    }
+
     public override IEnumerator Seek()
     {
         Debug.Log("Seek");

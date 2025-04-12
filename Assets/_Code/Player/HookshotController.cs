@@ -36,7 +36,14 @@ public class HookshotController : MonoBehaviour
 
     IEnumerator PullEnemy(RaycastHit hit, BaseEnemy ec, float a){
         enemy = ec;
-        enemy.agent.enabled = false;
+        
+        SwordsMan s = new SwordsMan();
+
+        if(enemy is SwordsMan sw){
+            s = sw;
+            s.agent.enabled = false;
+        }       
+        
         float f = 0.01f;
         yield return new WaitForSeconds(f);
         ec.transform.position = mas.LerpVectors(hit.transform.position, transform.position, a);
@@ -47,7 +54,10 @@ public class HookshotController : MonoBehaviour
             StartCoroutine(PullEnemy(hit, ec, a));
         }
         shouldBreak=false;
-        enemy.agent.enabled = true;
+        
+        if(enemy is SwordsMan){
+            s.agent.enabled = false;
+        }
 
     }   
 

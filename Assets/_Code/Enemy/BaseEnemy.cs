@@ -9,9 +9,6 @@ public abstract class BaseEnemy : MonoBehaviour
     // Variables
 
     public EState s = EState.seeking;
-// This should really be on the swordsman but i cant be boterthered
-    [HideInInspector] public NavMeshAgent agent;
-
 
     public bool seeking;
     public bool hunting;
@@ -56,9 +53,11 @@ public abstract class BaseEnemy : MonoBehaviour
         StartCoroutine(ActionLoop());
     }
 
+    public abstract void EnemyStart();
+
     void Start(){
         player=GameObject.FindGameObjectWithTag(glob.playerTag);
-        agent = GetComponent<NavMeshAgent>();
+        EnemyStart();
         StartCoroutine(ActionLoop());
     }
 }

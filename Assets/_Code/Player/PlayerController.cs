@@ -362,6 +362,25 @@ public class PlayerController : MonoBehaviour
         return velocity + (normals * wallJumpForce) + (Vector3.up / 100) ;
     }
 
+    // I have an idea, what about if there is a target velocity and that is set based on state, current velocity and what keys are pressed
+    // i.e. if youre walking but was just sliding and youre still holding w, the target velocity should be a little lower than sliding, instead of just walking speed
+    Vector3 newVector;
+
+    IEnumerator LerpVelocity(float t, Vector3 currentVector, Vector3 TargetVector){
+        Vector3 uneditedVector = currentVector;
+        if(t < 1){
+            newVector = mas.LerpVectors(currentVector, TargetVector, t);
+        }
+
+        rb.linearVelocity = newVector;
+        
+        yield return new WaitForSeconds(0.1f);
+        if(t < 1){
+            StartCoroutine(LerpVelocity(t+0.1f, uneditedVector, TargetVector));
+        }
+        
+    }
+
     void MovePlayer()
     {
         Vector3 velocity = Vector3.zero;
@@ -402,10 +421,9 @@ public class PlayerController : MonoBehaviour
                 Debug.LogError("Default case chosen in MovePlayer() in PlayerController");
                 break;
         }
- 
         
         rb.linearVelocity = velocity;
-        
+        // StartCoroutine(LerpVelocity(0.5f, rb.linearVelocity, velocity));
 
        
     }
