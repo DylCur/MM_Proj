@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using MathsAndSome;
 using UnityEngine;
 
+
+// The menace flies away :(
+
 [RequireComponent(typeof(Rigidbody))]
 public class Menace : BaseEnemy
 {
@@ -12,8 +15,9 @@ public class Menace : BaseEnemy
 
     Rigidbody rb;
     [SerializeField] float offset = 10f;
+    [SerializeField] float[] speed = new float[2];
 
-    List<GameObject> fireballs;
+    [HideInInspector] public List<GameObject> fireballs;
 
     public GameObject fireball;
 
@@ -21,8 +25,25 @@ public class Menace : BaseEnemy
         moving = true;
         
         // This should move it a bit
-        rb.linearVelocity = new Vector3(Random.Range(-offset/2, offset/2), 0, Random.Range(-offset/2, offset/2));
-        
+
+        Vector3 playerDistance = mas.PlayerDistance(player, gameObject);
+
+        if(playerDistance.x > 5f || playerDistance.z > 5f){
+            Vector3 direction = -(transform.position - player.transform.position).normalized;
+            rb.linearVelocity = new Vector3(direction.x, 0, direction.z) * Random.Range(speed[0], speed[1]);
+        }
+
+        else if(playerDistance.x < 2f || playerDistance.z < 2f){
+            rb.linearVelocity = Vector3.zero;
+        }
+
+        else{
+            rb.linearVelocity = new Vector3(Random.Range(-offset/2, offset/2), 0, Random.Range(-offset/2, offset/2));
+        }
+
+
+
+
         yield return new WaitForSeconds(0.3f);
 
         moving = false;
@@ -60,22 +81,6 @@ public class Menace : BaseEnemy
        fireballs = new List<GameObject>();
     }
 
-    public override bool inHuntRange(){
-        Vector3 pd = mas.PlayerDistance(player, gameObject);
-        
-        return pd.x <= seekRange &&
-        pd.z <= seekRange &&
-        pd.y <= maxYRange;
-    }
-
-    public override bool inAttackRange()
-    {
-        Vector3 pd = mas.PlayerDistance(player, gameObject);
-        
-        return pd.x <= attackRange &&
-        pd.z <= attackRange &&
-        pd.y <= maxYRange;
-    }
 
     public override IEnumerator Hunt()
     {
@@ -90,19 +95,4 @@ public class Menace : BaseEnemy
 
         hunting = false;
     } 
-
-    public override IEnumerator Seek()
-    {
-        Debug.Log("Seek");
-        seeking = true;
-
-        if(inHuntRange()){
-            s = EState.hunting;
-        }
-
-        yield return new WaitForSeconds(0.1f);
-
-        seeking = false;
-    }
-
 }

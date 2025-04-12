@@ -3,6 +3,8 @@ using MathsAndSome;
 using UnityEngine;
 using UnityEngine.AI;
 
+// No [RequireComponent(typeof(NavMeshAgent))] because i might need to add 
+// and remove it for the ai to work properly
 public class SwordsMan : BaseEnemy
 {
 
@@ -11,38 +13,6 @@ public class SwordsMan : BaseEnemy
     public override void EnemyStart()
     {
         agent = GetComponent<NavMeshAgent>();
-    }
-
-    public override bool inHuntRange()
-    {
-        Vector3 pd = mas.PlayerDistance(player, gameObject);
-        
-        return pd.x <= seekRange &&
-        pd.z <= seekRange &&
-        pd.y <= maxYRange;
-    }
-
-    public override bool inAttackRange()
-    {
-        Vector3 pd = mas.PlayerDistance(player, gameObject);
-        
-        return pd.x <= attackRange &&
-        pd.z <= attackRange &&
-        pd.y <= maxYRange;
-    }
-
-    public override IEnumerator Seek()
-    {
-        Debug.Log("Seek");
-        seeking = true;
-
-        if(inHuntRange()){
-            s = EState.hunting;
-        }
-
-        yield return new WaitForSeconds(0.1f);
-
-        seeking = false;
     }
     
     public override IEnumerator Hunt()

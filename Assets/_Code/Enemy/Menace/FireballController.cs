@@ -12,6 +12,10 @@ public enum FBMT{
     homing
 }
 
+
+// Fireballs can stack ontop of each other, thats a problem that can be fixed later
+// If the fireball is directly above the player it moves incredibly slowly
+
 // Im not sure if i want fireballs to home or not, but i think i want both so ill make both
 [RequireComponent(typeof(Rigidbody))]
 public class FireballController : MonoBehaviour
@@ -65,7 +69,7 @@ public class FireballController : MonoBehaviour
             StartCoroutine(HomeToPlayer());
         }
 
-        RespawnManager.Ins.entities.Add(gameObject);
+        // RespawnManager.Ins.entities.Add(gameObject);
 
         DestroyObj(15f);
     }
@@ -82,7 +86,7 @@ public class FireballController : MonoBehaviour
         else{
             Destroy(gameObject);    
         }
-
+/*
         try{
             RespawnManager.Ins.entities.Remove(gameObject);
         }
@@ -90,6 +94,8 @@ public class FireballController : MonoBehaviour
         catch(Exception e){
             Debug.LogError($"Caught exception {e} while attempting to remove {gameObject.name} from the Entities List");
         }
+*/
+        parent.GetComponent<Menace>().fireballs.Remove(gameObject);
 
     }
 

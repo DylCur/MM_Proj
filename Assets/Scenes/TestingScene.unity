@@ -500,7 +500,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 50, y: 1, z: 50}
+  m_LocalScale: {x: 100, y: 1, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -606,6 +606,10 @@ MonoBehaviour:
   attackTime: 0.2
   player: {fileID: 0}
   offset: 10
+  speed:
+  - 10
+  - 15
+  fireballs: []
   fireball: {fileID: 79242911491850018, guid: 7a92f0761ba13cc48bfb3b12a4d225e9, type: 3}
 --- !u!54 &712276284
 Rigidbody:

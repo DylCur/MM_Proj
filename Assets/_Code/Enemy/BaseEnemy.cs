@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using Globals;
+using MathsAndSome;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -28,12 +29,38 @@ public abstract class BaseEnemy : MonoBehaviour
         hooked = 3 // Has been hooked
     }
 
-    public abstract IEnumerator Seek();
+    // Was abstract but was the same over all enemies
+    public IEnumerator Seek(){
+        Debug.Log("Seek");
+        seeking = true;
+
+        if(inHuntRange()){
+            s = EState.hunting;
+        }
+
+        yield return new WaitForSeconds(0.1f);
+
+        seeking = false;
+    }
+
     public abstract IEnumerator Hunt();
     public abstract IEnumerator Attack();
 
-    public abstract bool inAttackRange();
-    public abstract bool inHuntRange();
+    public bool inAttackRange(){
+        Vector3 pd = mas.PlayerDistance(player, gameObject);
+        
+        return pd.x <= attackRange &&
+        pd.z <= attackRange &&
+        pd.y <= maxYRange;
+    }
+
+    public bool inHuntRange(){
+        Vector3 pd = mas.PlayerDistance(player, gameObject);
+        
+        return pd.x <= seekRange &&
+        pd.z <= seekRange &&
+        pd.y <= maxYRange;
+    }
 
     public float attackTime = 0.2f;
 
@@ -63,6 +90,7 @@ public abstract class BaseEnemy : MonoBehaviour
 
     void Start(){
 
+    /*
         try{
             RespawnManager.Ins.entities.Add(gameObject);  
         }
@@ -70,7 +98,7 @@ public abstract class BaseEnemy : MonoBehaviour
         catch(Exception e){
             Debug.LogError($"Caught exception {e} while attempting to add {gameObject.name} from the Entities List");
         }
-
+    */
         player=GameObject.FindGameObjectWithTag(glob.playerTag);
         EnemyStart();
         StartCoroutine(ActionLoop());

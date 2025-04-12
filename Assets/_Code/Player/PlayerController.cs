@@ -57,7 +57,7 @@ public class PlayerController : MonoBehaviour
     [Header("Slamming")]
     [SerializeField] float slamForce = 90f;
     [HideInInspector] public KeyCode slamKey = KeyCode.LeftControl;
-    [SerializeField] float maxSlamjumpForce = 10f;
+    // [SerializeField] float maxSlamjumpForce = 10f;
     [SerializeField] float slamJumpTime;
     float fallTime;
     bool timing;
@@ -69,8 +69,8 @@ public class PlayerController : MonoBehaviour
     bool dashing;
 
     [Header("Wall Running")]
-    [SerializeField] float gravityScale=0.8f;
-    bool canWallRun = true;
+    // [SerializeField] float gravityScale=0.8f;
+    // bool canWallRun = true;
 
     [Header("Wall Jumping")]
     [SerializeField] bool canWallJump = true;
