@@ -11,8 +11,10 @@ public enum state{
     wall_run
 }
 
-[RequireComponent(typeof(Rigidbody))]
-[RequireComponent(typeof(CapsuleCollider))]
+
+[RequireComponent(typeof(Rigidbody))]           // For movement
+[RequireComponent(typeof(CapsuleCollider))]     // For Collision
+[RequireComponent(typeof(BoxCollider))]         // To Stop the player being launched
 public class PlayerController : MonoBehaviour
 {
     // State controls state so movement modes innit
@@ -77,6 +79,7 @@ public class PlayerController : MonoBehaviour
     bool wallJumping;
     [SerializeField] [Range(1, 50)] float wallJumpForce = 100f;
     public float wjt = 0.5f;
+    
     /*
     bool shouldWallRun(){
         // Gets all of the colliders in wall running range
@@ -130,7 +133,7 @@ public class PlayerController : MonoBehaviour
 
 
         // If there is more than one (Player will always be included), loop through them
-        if(cols.Length > 1){
+        if(cols.Length > 2){
             foreach(Collider col in cols){
                 // If its a wall
                 if(col.tag == "wall"){
@@ -162,6 +165,7 @@ public class PlayerController : MonoBehaviour
                                    new Vector3(scale.x *checkWidth, checkHeight, scale.z*checkWidth)).ToList();
 
         colliders.Remove(GetComponent<CapsuleCollider>());
+        colliders.Remove(GetComponent<BoxCollider>());
 
         if(colliders.Count() > 0)
             return true;
@@ -174,7 +178,7 @@ public class PlayerController : MonoBehaviour
     
     IEnumerator SlamJumpTimer(){
         float ogForce = jumpForce;
-        jumpForce = 10f;
+        jumpForce *= 1.45f;
         yield return new WaitForSeconds(slamJumpTime);
         jumpForce = ogForce;
     }   
@@ -277,6 +281,7 @@ public class PlayerController : MonoBehaviour
         }
 
         if(grounded() && s == state.slamming){
+            Debug.Log("Slammed on ground!");
             s = state.walking;
             StartCoroutine(SlamJumpTimer());
         }

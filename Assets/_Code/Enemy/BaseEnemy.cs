@@ -21,12 +21,15 @@ public abstract class BaseEnemy : MonoBehaviour
     public float seekRange = 100f;
     public float attackRange = 10f;
     public float maxYRange = 10f;
+    
+    public int projLimit = 5;
 
     public enum EState{
         seeking = 0, // Idle, checking for the player
         hunting = 1, // Actively chasing the player
         attacking = 2, // In attack range and attacking
-        hooked = 3 // Has been hooked
+        hooked = 3, // Has been hooked
+        dead = 4    // Health <= 0
     }
 
     // Was abstract but was the same over all enemies
@@ -60,6 +63,10 @@ public abstract class BaseEnemy : MonoBehaviour
         return pd.x <= seekRange &&
         pd.z <= seekRange &&
         pd.y <= maxYRange;
+    }
+
+    void Awake(){
+        Debug.Log(gameObject);
     }
 
     public float attackTime = 0.2f;

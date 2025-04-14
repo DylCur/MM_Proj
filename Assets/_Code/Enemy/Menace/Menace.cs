@@ -17,7 +17,7 @@ public class Menace : BaseEnemy
     [SerializeField] float offset = 10f;
     [SerializeField] float[] speed = new float[2];
 
-    [HideInInspector] public List<GameObject> fireballs;
+    /*[HideInInspector]*/ public List<GameObject> fireballs;
 
     public GameObject fireball;
 
@@ -41,18 +41,15 @@ public class Menace : BaseEnemy
             rb.linearVelocity = new Vector3(Random.Range(-offset/2, offset/2), 0, Random.Range(-offset/2, offset/2));
         }
 
-
-
-
         yield return new WaitForSeconds(0.3f);
 
         moving = false;
     }
 
     void ShootFireball(){
-        if(fireballs.Count < 5){
+        if(fireballs.Count < projLimit){
             GameObject fb = Instantiate(fireball, transform.position, Quaternion.identity);
-            fb.GetComponent<FireballController>().parent = GetComponent<CapsuleCollider>();
+            fb.GetComponent<ProjectileController>().parent = GetComponent<CapsuleCollider>();
             fireballs.Add(fb);
         }
     }

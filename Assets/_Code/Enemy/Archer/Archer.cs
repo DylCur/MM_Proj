@@ -15,19 +15,19 @@ public class Archer : BaseEnemy
     bool moving;
 
     Rigidbody rb;
-    [SerializeField] float offset = 10f;
-    [SerializeField] float[] speed = new float[2];
 
-    [HideInInspector] public List<GameObject> arrows;
+    /*[HideInInspector]*/ public List<GameObject> arrows;
 
     public GameObject arrow;
+    NavMeshAgent na = new NavMeshAgent();
+
 
 
     void ShootArrow(){
-        if(arrows.Count < 5){
+        if(arrows.Count < projLimit){
             GameObject ar = Instantiate(arrow, transform.position, Quaternion.identity);
-            // ar.GetComponent<Arrow>().parent = GetComponent<CapsuleCollider>();
-            // arrows.Add(ar);
+            ar.GetComponent<ArrowController>().parent = GetComponent<CapsuleCollider>();
+            arrows.Add(ar);
         }
     }
 
@@ -52,7 +52,6 @@ public class Archer : BaseEnemy
     public override IEnumerator Hunt()
     {
 
-        NavMeshAgent na = new NavMeshAgent();
 
         Debug.Log("Hunt");
         hunting = true;

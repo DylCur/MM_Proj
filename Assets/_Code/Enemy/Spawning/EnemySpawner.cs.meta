@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 9429da865e848c449b3a9b6565112fbd
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - swordsMan: {fileID: 7479715369120754892, guid: 3c6a90a03ca5cae4aab1e323c0c69a73, type: 3}
+  - archer: {fileID: 8520984158857389704, guid: d298d9451b07fc242ac72fbe1941bea5, type: 3}
+  - menace: {fileID: 6999095682265966786, guid: 2862153b0ef46454191ef3c6ca755b19, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

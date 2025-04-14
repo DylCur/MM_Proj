@@ -6,31 +6,31 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 
-// Fireball move type
-public enum FBMT{
+// projectile move type
+public enum PJMT{
     forward,
     homing
 }
 
 
-// Fireballs can stack ontop of each other, thats a problem that can be fixed later
-// If the fireball is directly above the player it moves incredibly slowly
+// projectiles can stack ontop of each other, thats a problem that can be fixed later
+// If the projectile is directly above the player it moves incredibly slowly
 
-// Im not sure if i want fireballs to home or not, but i think i want both so ill make both
+// Im not sure if i want projectiles to home or not, but i think i want both so ill make both
 [RequireComponent(typeof(Rigidbody))]
-public class FireballController : MonoBehaviour
+public abstract class ProjectileController : MonoBehaviour
 {
 
     [Header("Parameters")]
     public float speed = 10f;
     public float maxHomingRange = 10f;
-    public FBMT mt = FBMT.forward;
+    public PJMT mt = PJMT.forward;
     Vector3 direction;
 
 
-    Rigidbody rb;
+    [HideInInspector] public Rigidbody rb;
     Vector3 playerDistance;
-    GameObject player;
+    [HideInInspector] public GameObject player;
     [HideInInspector] public Collider parent;
 
     public IEnumerator MoveForward(Vector3 r /* Rotation */){
@@ -56,17 +56,22 @@ public class FireballController : MonoBehaviour
         
     }
 
+
     void Awake(){
         rb = GetComponent<Rigidbody>();
         player = mas.GetPlayer().gameObject;
 
         direction = Vector3.zero;
 
-        if(mt == FBMT.forward){
+        if(mt == PJMT.forward){
             StartCoroutine(MoveForward(-(transform.position - player.transform.position).normalized));
         }
-        else if(mt == FBMT.homing){
+        else if(mt == PJMT.homing){
             StartCoroutine(HomeToPlayer());
+        }
+
+        if(this is ArrowController a){
+            StartCoroutine(a.GetDeltaDistance());
         }
 
         // RespawnManager.Ins.entities.Add(gameObject);
@@ -74,18 +79,9 @@ public class FireballController : MonoBehaviour
         DestroyObj(15f);
     }
 
-    IEnumerator DestroyObj(float delay){
+    public abstract IEnumerator DestroyObj(float delay);
 
-        yield return new WaitForSeconds(delay);
-        //* Insert any animations or particles or player collsion etc here
-
-        // Save on processing power by just destroying the object if its far enough away
-        if(mas.AddVectorComponents(mas.PlayerDistance(player, gameObject)) > 500f){
-            Destroy(gameObject);
-        }
-        else{
-            Destroy(gameObject);    
-        }
+        
 /*
         try{
             RespawnManager.Ins.entities.Remove(gameObject);
@@ -95,9 +91,8 @@ public class FireballController : MonoBehaviour
             Debug.LogError($"Caught exception {e} while attempting to remove {gameObject.name} from the Entities List");
         }
 */
-        parent.GetComponent<Menace>().fireballs.Remove(gameObject);
 
-    }
+    
 
     void OnTriggerEnter(Collider other){
         
@@ -112,8 +107,8 @@ public class FireballController : MonoBehaviour
             StartCoroutine(DestroyObj(0f));
         }
 
-        // Check to see if the other is a fireball
-        if(other.GetComponent<FireballController>() == null){
+        // Check to see if the other is a projectile
+        if(other.GetComponent<ProjectileController>() == null){
             if(other != parent){
                 StartCoroutine(DestroyObj(0f));
             }
@@ -122,8 +117,5 @@ public class FireballController : MonoBehaviour
         
     }
 
-    public FireballController(FBMT moveType, Collider p){
-        mt = moveType;
-        parent = p;
-    }
+    
 }

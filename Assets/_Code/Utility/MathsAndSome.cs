@@ -155,6 +155,27 @@ namespace MathsAndSome{
 
         }
 
+        public static float CalculateHypotenuse(Vector2 v){
+            return Mathf.Sqrt(Mathf.Pow(v.x, 2) + Mathf.Pow(v.y, 2));
+        }
+
+        public static float FindDotProduct(Vector2 a, Vector2 b){
+
+            // Get the length of those vectors
+            float al = Mathf.Abs(CalculateHypotenuse(a));
+            float bl = Mathf.Abs(CalculateHypotenuse(b));
+
+            // Calculate the dotproduct
+            float dp = (a.x*b.x)+(a.y*b.y);
+
+            // Calculate the angle
+            return Mathf.Acos(dp/bl/al);
+
+            // This uses this formula
+            // \theta=\cos^{-1}\left(\frac{\frac{\left(a_{x}\cdot b_{x}\right)+\left(a_{y}\cdot b_{y}\right)}{\left|b\right|}}{\left|a\right|}\right)
+
+        }
+
     }
 
 }
