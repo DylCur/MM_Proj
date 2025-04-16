@@ -176,6 +176,11 @@ namespace MathsAndSome{
 
         }
 
+        public static List<Collider> RemovePlayerFromList(List<Collider> list){
+            list.Remove(GetPlayer().GetComponent<CapsuleCollider>());
+            return list;
+        }
+
     }
 
 }

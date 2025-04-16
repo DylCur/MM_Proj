@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Data.Common;
 using Globals;
 using MathsAndSome;
 using UnityEngine;
@@ -24,6 +25,8 @@ public abstract class BaseEnemy : MonoBehaviour
     
     public int projLimit = 5;
 
+    [SerializeField] float iframes = 0.1f;
+
     public enum EState{
         seeking = 0, // Idle, checking for the player
         hunting = 1, // Actively chasing the player
@@ -46,6 +49,8 @@ public abstract class BaseEnemy : MonoBehaviour
         seeking = false;
     }
 
+    public bool canTakeDamage = true;
+
     public abstract IEnumerator Hunt();
     public abstract IEnumerator Attack();
 
@@ -63,6 +68,19 @@ public abstract class BaseEnemy : MonoBehaviour
         return pd.x <= seekRange &&
         pd.z <= seekRange &&
         pd.y <= maxYRange;
+    }
+
+    IEnumerator IFrames(){
+        canTakeDamage = false;
+        yield return new WaitForSeconds(iframes);
+        canTakeDamage = true;
+    }
+
+    public void TakeDamage(int damage){
+        if(canTakeDamage){
+            health -= damage;
+            StartCoroutine(IFrames());
+        }
     }
 
     void Awake(){

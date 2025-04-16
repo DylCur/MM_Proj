@@ -10,5 +10,6 @@ namespace Globals{
         
         // This contains the max range for AI's when raycasting
         public const float maxAiCheckRange = 10000f;
+
     }
 }
