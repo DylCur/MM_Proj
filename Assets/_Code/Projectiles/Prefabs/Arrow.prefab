@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7530943060567549358}
   - component: {fileID: 5086143910796414042}
   - component: {fileID: 413855846163723711}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 3077293431356691894}
   - component: {fileID: 249971236357938219}
   - component: {fileID: 6117416006419826557}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -184,7 +184,7 @@ GameObject:
   - component: {fileID: 2283164623540495468}
   - component: {fileID: 922784316715817114}
   - component: {fileID: 1017643712756993531}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Arrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -233,7 +233,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 16
   m_CollisionDetection: 0
 --- !u!114 &922784316715817114
 MonoBehaviour:

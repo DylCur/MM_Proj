@@ -181,6 +181,10 @@ namespace MathsAndSome{
             return list;
         }
 
+        public static Vector3 zeroY(Vector3 v){
+            return new Vector3(v.x,0,v.z);
+        }
+
     }
 
 }

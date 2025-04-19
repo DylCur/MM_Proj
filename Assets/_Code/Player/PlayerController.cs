@@ -11,7 +11,6 @@ public enum state{
     wall_run
 }
 
-
 [RequireComponent(typeof(Rigidbody))]           // For movement
 [RequireComponent(typeof(CapsuleCollider))]     // For Collision
 [RequireComponent(typeof(BoxCollider))]         // To Stop the player being launched
@@ -31,6 +30,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Movement")]
     [Range(3, 20)] public float moveSpeed = 5f;
+    [Range(0, 100)] public float stamina;
     float hInp;
     float vInp;
 
@@ -396,9 +396,7 @@ public class PlayerController : MonoBehaviour
                 velocity = new Vector3(velocity.x, rb.linearVelocity.y, velocity.z);
                 
                 //The player can only dash while they are walking (Currently)
-                if(dashing){
-                    velocity=CalculateDashVelocity(velocity);
-                }
+                
                 
                 if(wallJumping){
                     //TODO Implement this 😭
@@ -413,6 +411,9 @@ public class PlayerController : MonoBehaviour
 
             case state.slamming:
                 velocity = new Vector3(0, rb.linearVelocity.y, 0);
+                if(dashing){
+                    velocity = new Vector3(0, 0, 0);
+                }
                 break;
             case state.wall_run:
                 velocity = new Vector3(rb.linearVelocity.x, rb.linearVelocity.y / 2, rb.linearVelocity.z);
@@ -425,6 +426,15 @@ public class PlayerController : MonoBehaviour
                 velocity = new Vector3(10000000, 10000000, 10000000); 
                 Debug.LogError("Default case chosen in MovePlayer() in PlayerController");
                 break;
+            
+        }
+
+        if(dashing){
+            if(s == state.sliding){
+                Unslide();
+            }
+            s = state.walking;
+            velocity=CalculateDashVelocity(velocity);
         }
         
         rb.linearVelocity = velocity;

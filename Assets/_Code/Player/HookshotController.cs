@@ -10,16 +10,18 @@ public class HookshotController : MonoBehaviour
     [Header("Hookshot")]
 
     [SerializeField] [Range(50, 1000)] float range = 100f;
-    [SerializeField] float cdTime = 0.2f;
+    public float cdTime = 0.2f;
     [SerializeField] [Range(3, 20)] float truthNukeRange = 3f;
 
-    bool canHook = true;
+    [HideInInspector] public bool canHook = true;
     bool shouldHook => canHook && Input.GetKeyDown(hookKey);
     bool shouldBreak;
 
     [HideInInspector] public KeyCode hookKey = KeyCode.R;
     PlayerController pc;
     BaseEnemy enemy;
+
+    [SerializeField] LayerMask enemyLayer;
 
 
 
@@ -28,6 +30,7 @@ public class HookshotController : MonoBehaviour
     }
 
     IEnumerator HookCD(){
+        StartCoroutine(GameObject.FindGameObjectWithTag("Canvas").GetComponent<EnableOnStart>().LerpHookshotColour(cdTime/20));
         canHook = false;
         yield return new WaitForSeconds(cdTime);
         canHook = true;
@@ -37,13 +40,13 @@ public class HookshotController : MonoBehaviour
     IEnumerator PullEnemy(RaycastHit hit, BaseEnemy ec, float a){
         enemy = ec;
         
-        SwordsMan s = new SwordsMan();
 
+/*
         if(enemy is SwordsMan sw){
             s = sw;
             s.agent.enabled = false;
         }       
-        
+        */
         float f = 0.01f;
         yield return new WaitForSeconds(f);
         ec.transform.position = mas.LerpVectors(hit.transform.position, transform.position, a);
@@ -54,22 +57,31 @@ public class HookshotController : MonoBehaviour
             StartCoroutine(PullEnemy(hit, ec, a));
         }
         shouldBreak=false;
-        
+        /*
         if(enemy is SwordsMan){
             s.agent.enabled = false;
         }
-
+*/
     }   
 
     void Hook(){
-        if(Physics.Raycast(transform.position, pc.playerCamera.transform.forward, out RaycastHit hit, range)){
+        if(Physics.Raycast(transform.position, pc.playerCamera.transform.forward, out RaycastHit hit, range, enemyLayer)){
+            
+            
             BaseEnemy ec = hit.collider.GetComponent<BaseEnemy>();
 
             if(ec != null){
                 Debug.Log("Hooked enemy");
                 StartCoroutine(PullEnemy(hit, ec, 0f));
             }
+            else{
+                if(hit.collider.GetComponent<ProjectileController>()!=null){
+                    Debug.Log($"Hit {hit.collider.name}");
+                }
+            }
         }
+
+        StartCoroutine(HookCD());
     }
 
 
