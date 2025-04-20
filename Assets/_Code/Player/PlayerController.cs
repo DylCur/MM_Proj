@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using MathsAndSome;
 using UnityEngine;
 
@@ -155,6 +157,14 @@ public class PlayerController : MonoBehaviour
         return false;
     }
 
+    float fov(){
+        Vector3 v = rb.linearVelocity;
+        v = new Vector3(v.x,0,v.z);
+        float f = Mathf.Pow(Mathf.Atan(v.x+v.z),2) * 40 + 10;
+        f = Mathf.Clamp(f, 90, 9999);
+        return f;
+    }
+
     
         
 
@@ -266,7 +276,8 @@ public class PlayerController : MonoBehaviour
     {
 
         forwardObject.transform.localEulerAngles = new Vector3(0,playerCamera.transform.localEulerAngles.y,playerCamera.transform.localEulerAngles.z);
-
+        
+        // playerCamera.fieldOfView = fov();
 
         if(shouldDash){
             stamina-=staminaPerDash;
