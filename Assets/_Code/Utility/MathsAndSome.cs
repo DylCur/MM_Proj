@@ -185,6 +185,14 @@ namespace MathsAndSome{
             return new Vector3(v.x,0,v.z);
         }
 
+        public static Vector3 ClampVector(Vector3 vectorToClamp, Vector3[] clamp){
+            float x = Mathf.Clamp(vectorToClamp.x, clamp[0].x,clamp[1].x);
+            float y = Mathf.Clamp(vectorToClamp.y, clamp[0].y,clamp[1].y);
+            float z = Mathf.Clamp(vectorToClamp.z, clamp[0].z,clamp[1].z);
+
+            return new Vector3(x,y,z);
+        }
+
     }
 
 }

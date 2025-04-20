@@ -29,8 +29,8 @@ public class PlayerController : MonoBehaviour
     [Range(60, 90)] public float maxY = 60f;
 
     [Header("Movement")]
+    [Header("Walking")]
     [Range(3, 20)] public float moveSpeed = 5f;
-    [Range(0, 100)] public float stamina;
     float hInp;
     float vInp;
 
@@ -41,6 +41,14 @@ public class PlayerController : MonoBehaviour
 
     Vector3 moveDirection;
     Vector3 slideDirection;
+
+    [Header("Stamina")]
+    public int stamina = 100;
+    [SerializeField] float staminaRechargeCD;
+    [SerializeField] int staminaPerRecharge;
+    [SerializeField] int maxStamina = 100;
+    [SerializeField] int staminaPerDash = 33;
+    [SerializeField] bool rechargeWhileSliding;
     
     [Header("Jumping")]
     [SerializeField] float checkHeight;
@@ -59,7 +67,7 @@ public class PlayerController : MonoBehaviour
     [Header("Slamming")]
     [SerializeField] float slamForce = 90f;
     [HideInInspector] public KeyCode slamKey = KeyCode.LeftControl;
-    // [SerializeField] float maxSlamjumpForce = 10f;
+    [SerializeField] float slamJumpForce = 10f;
     [SerializeField] float slamJumpTime;
     float fallTime;
     bool timing;
@@ -155,7 +163,7 @@ public class PlayerController : MonoBehaviour
 
 
     bool shouldJump => canJump && Input.GetKeyDown(jumpKey) && grounded();
-    bool shouldDash => canDash && Input.GetKeyDown(dashKey) && !dashing;
+    bool shouldDash => canDash && Input.GetKeyDown(dashKey) && !dashing && stamina-staminaPerDash >= 0;
 
     bool grounded(){
 
@@ -178,7 +186,7 @@ public class PlayerController : MonoBehaviour
     
     IEnumerator SlamJumpTimer(){
         float ogForce = jumpForce;
-        jumpForce *= 1.45f;
+        jumpForce = slamJumpForce;
         yield return new WaitForSeconds(slamJumpTime);
         jumpForce = ogForce;
     }   
@@ -232,6 +240,8 @@ public class PlayerController : MonoBehaviour
        
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        StartCoroutine(HandleStamina());
     }
 
 
@@ -250,6 +260,8 @@ public class PlayerController : MonoBehaviour
         wallJumping = false;
     }
 
+    
+
     void Update()
     {
 
@@ -257,6 +269,7 @@ public class PlayerController : MonoBehaviour
 
 
         if(shouldDash){
+            stamina-=staminaPerDash;
             StartCoroutine(DashCD());
         }
 
@@ -286,10 +299,13 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(SlamJumpTimer());
         }
 
-
         if(shouldWallJump()){
             StartCoroutine(WallJump());
         }
+
+        
+
+        
 
         //TODO Implement this later 
         // if(shouldWallRun()){
@@ -435,6 +451,7 @@ public class PlayerController : MonoBehaviour
             }
             s = state.walking;
             velocity=CalculateDashVelocity(velocity);
+           
         }
         
         rb.linearVelocity = velocity;
@@ -467,6 +484,33 @@ public class PlayerController : MonoBehaviour
         s = state.slamming;
         rb.linearVelocity = new Vector3(rb.linearVelocity.x, -slamForce, rb.linearVelocity.z);
     }
+    #endregion
+
+    #region Stamina
+
+    void IncreaseStamina(){
+        if(!grounded()){
+            stamina+=staminaPerRecharge;
+        }
+        else{
+            stamina+=Mathf.CeilToInt(staminaPerRecharge * 1.5f);
+        }
+
+        if(stamina > maxStamina){
+            stamina = maxStamina;
+        }
+    }
+
+    IEnumerator HandleStamina(){
+        
+        if(s!=state.sliding || rechargeWhileSliding){
+            IncreaseStamina();
+        }
+
+        yield return new WaitForSeconds(staminaRechargeCD);
+        StartCoroutine(HandleStamina());
+    }
+
     #endregion
    
    
