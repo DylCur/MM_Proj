@@ -241,7 +241,7 @@ public class PlayerController : MonoBehaviour
         }
 
         dScale=transform.localScale;
-        hScale=new Vector3(dScale.x/2,dScale.y/2,dScale.z/2);
+        hScale=new Vector3(dScale.x,dScale.y/2,dScale.z);
 
 
         rb = GetComponent<Rigidbody>();
