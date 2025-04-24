@@ -209,8 +209,8 @@ public class PlayerController : MonoBehaviour
         Debug.Log("Dash");
         s = state.walking;
         Vector3 dashDirection;
-        Vector3 forward = playerCamera.transform.forward;
-        Vector3 right = playerCamera.transform.right;
+        Vector3 forward = forwardObject.transform.forward;
+        Vector3 right = forwardObject.transform.right;
 
         dashDirection = vInp == 0 && hInp == 0 ? (forward + right*hInp).normalized : slideDirection = (forward * vInp + right*hInp).normalized;
         return new Vector3(dashDirection.x * dashForce, 0,dashDirection.z * dashForce);
