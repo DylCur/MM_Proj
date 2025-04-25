@@ -17,7 +17,7 @@ public class HookshotController : MonoBehaviour
     bool shouldHook => canHook && Input.GetKeyDown(hookKey);
     bool shouldBreak;
 
-    [HideInInspector] public KeyCode hookKey = KeyCode.R;
+    [HideInInspector] public KeyCode hookKey = KeyCode.R;   
     PlayerController pc;
     BaseEnemy enemy;
 
@@ -38,15 +38,8 @@ public class HookshotController : MonoBehaviour
     }
 
     IEnumerator PullEnemy(RaycastHit hit, BaseEnemy ec, float a){
-        enemy = ec;
-        
+        enemy = ec; 
 
-/*
-        if(enemy is SwordsMan sw){
-            s = sw;
-            s.agent.enabled = false;
-        }       
-        */
         float f = 0.01f;
         yield return new WaitForSeconds(f);
         ec.transform.position = mas.LerpVectors(hit.transform.position, transform.position, a);
@@ -56,18 +49,16 @@ public class HookshotController : MonoBehaviour
             a+=f;
             StartCoroutine(PullEnemy(hit, ec, a));
         }
-        shouldBreak=false;
-        /*
-        if(enemy is SwordsMan){
-            s.agent.enabled = false;
+        else{
+            enemy=null;
         }
-*/
+
+        shouldBreak=false;
+
     }   
 
     void Hook(){
-        if(Physics.Raycast(transform.position, pc.playerCamera.transform.forward, out RaycastHit hit, range, enemyLayer)){
-            
-            
+        if(Physics.Raycast(transform.position, pc.playerCamera.transform.forward, out RaycastHit hit, range, enemyLayer)){ 
             BaseEnemy ec = hit.collider.GetComponent<BaseEnemy>();
 
             if(ec != null){

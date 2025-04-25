@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class Drawbridge : DoorController
 {
@@ -8,7 +9,7 @@ public class Drawbridge : DoorController
     }
 
     // This will never be called
-    public override void CloseDoor()
+    public override IEnumerator CloseDoor()
     {
         throw new System.NotImplementedException();
     }

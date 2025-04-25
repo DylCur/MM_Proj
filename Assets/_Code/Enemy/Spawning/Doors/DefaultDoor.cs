@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 [RequireComponent(typeof(BoxCollider))]
 public class DefaultDoor : DoorController
@@ -16,8 +17,9 @@ public class DefaultDoor : DoorController
 
     }
 
-    public override void CloseDoor()
+    public override IEnumerator CloseDoor()
     {
+        yield return new WaitForSeconds(0.3f);
         bc.isTrigger = false;
     }
 }

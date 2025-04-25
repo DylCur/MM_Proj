@@ -165,11 +165,13 @@ namespace MathsAndSome{
             float al = Mathf.Abs(CalculateHypotenuse(a));
             float bl = Mathf.Abs(CalculateHypotenuse(b));
 
+            float d = al*bl;
+
             // Calculate the dotproduct
             float dp = (a.x*b.x)+(a.y*b.y);
 
             // Calculate the angle
-            return Mathf.Acos(dp/bl/al);
+            return 1/Mathf.Cos(dp/d);
 
             // This uses this formula
             // \theta=\cos^{-1}\left(\frac{\frac{\left(a_{x}\cdot b_{x}\right)+\left(a_{y}\cdot b_{y}\right)}{\left|b\right|}}{\left|a\right|}\right)

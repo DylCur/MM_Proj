@@ -76,9 +76,21 @@ public abstract class BaseEnemy : MonoBehaviour
         canTakeDamage = true;
     }
 
+    void Die(){
+        s = EState.dead;
+        Destroy(GetComponent<CapsuleCollider>());
+        Destroy(GetComponent<MeshRenderer>());
+        Destroy(GetComponent<MeshFilter>());
+    }
+
     public void TakeDamage(int damage){
         if(canTakeDamage){
             health -= damage;
+            
+            if(health<=0){
+                Die();
+            }
+
             StartCoroutine(IFrames());
         }
     }

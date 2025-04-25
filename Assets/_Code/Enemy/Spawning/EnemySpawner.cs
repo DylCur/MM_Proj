@@ -20,7 +20,7 @@ public class EnemySpawner : MonoBehaviour
     Dictionary<EType, GameObject> EnemyTypeMappings = new Dictionary<EType, GameObject>();
 
     List<BaseEnemy> currentEnemies = new List<BaseEnemy>();
-    List<GameObject> doors; 
+    [SerializeField] List<GameObject> doors; 
 
     int wave = 0;
     bool waveSpawned;
@@ -128,6 +128,12 @@ public class EnemySpawner : MonoBehaviour
 
     void OnTriggerEnter(Collider other){
         if(other.tag == glob.playerTag){
+            
+            foreach(GameObject door in doors){
+                DefaultDoor d = door.GetComponent<DefaultDoor>();
+                StartCoroutine(d.CloseDoor());
+            }
+
             StartCoroutine(SpawnWave());
             Destroy(GetComponent<BoxCollider>());
         }
