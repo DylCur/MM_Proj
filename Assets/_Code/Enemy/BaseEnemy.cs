@@ -25,6 +25,12 @@ public abstract class BaseEnemy : MonoBehaviour
     
     public int projLimit = 5;
 
+
+    [Header("Temp material stuff")]
+
+    public Material hurtMat;
+    public Material defaultMat;
+
     [SerializeField] float iframes = 0.1f;
 
     public enum EState{
@@ -83,9 +89,17 @@ public abstract class BaseEnemy : MonoBehaviour
         Destroy(GetComponent<MeshFilter>());
     }
 
+    IEnumerator ChangeMaterial(){
+        GetComponent<MeshRenderer>().material = hurtMat;
+        yield return new WaitForSeconds(0.2f);
+        GetComponent<MeshRenderer>().material = defaultMat;
+    }
+
     public void TakeDamage(int damage){
         if(canTakeDamage){
             health -= damage;
+
+            StartCoroutine(ChangeMaterial());
             
             if(health<=0){
                 Die();

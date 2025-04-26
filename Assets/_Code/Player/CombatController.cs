@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using MathsAndSome;
 using UnityEngine;
@@ -16,8 +18,13 @@ public class CombatController : MonoBehaviour
 
     bool shouldAttack => canAttack && Input.GetKeyDown(atkKey);
     [SerializeField] float atkCD = 0.2f;
-    float attackOut = 5f;
+    [SerializeField] float attackOut = 5f;
+    
+    [Description("This will dictate how far up and across")]
     [SerializeField] float atkRadius = 0.5f;
+
+    [Description("This will dictate how far out the attack goes")]
+    [SerializeField] float attackRange = 3f;
     [SerializeField] KeyCode killallKey = KeyCode.E;
 
     void Die(){
@@ -40,11 +47,16 @@ public class CombatController : MonoBehaviour
 
         canAttack = false;
 
-        List<Collider> hitObjs = Physics.OverlapSphere
+        Vector3 boxPos = transform.position + transform.forward * attackOut;
+        Vector3 boxSize = new Vector3(attackRange,atkRadius,atkRadius);
+
+        List<Collider> hitObjs = Physics.OverlapBox
         (
-            transform.position + transform.forward * attackOut, 
-            atkRadius
+            boxPos, 
+            boxSize
         ).ToList();
+
+        
         
         Debug.Log("Player Attacked");
 
@@ -85,5 +97,13 @@ public class CombatController : MonoBehaviour
                 gol.GetComponent<BaseEnemy>().TakeDamage(1_000_000_000);
             }
         }
+    }
+
+    void OnDrawGizmos()
+
+    {   Vector3 boxPos = transform.position + transform.forward * attackOut;
+        Vector3 boxSize = new Vector3(attackRange,atkRadius,atkRadius);
+        
+        Gizmos.DrawWireCube(boxPos, boxSize);
     }
 }

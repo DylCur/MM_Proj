@@ -1,2 +1,15 @@
 fileFormatVersion: 2
 guid: 10e861348a15eb749a204b71282d1628
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - hurtMat: {fileID: 2100000, guid: 9591e2266017eeea19e9f65363d7d1c7, type: 2}
+  - defaultMat: {fileID: 2100000, guid: 5abb7d928fe6135b6b03ca3445055ae5, type: 2}
+  - player: {instanceID: 0}
+  - rb: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
