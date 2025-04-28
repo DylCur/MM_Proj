@@ -81,6 +81,9 @@ public class SwordsMan : BaseEnemy
         if(!playerInRange){
             s = EState.hunting;
         }
+        else{
+            mas.GetPlayer().gameObject.GetComponent<CombatController>().TakeDamage(damage);
+        }
 
         yield return new WaitForSeconds(attackTime);
 

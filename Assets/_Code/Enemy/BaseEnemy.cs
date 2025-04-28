@@ -25,6 +25,8 @@ public abstract class BaseEnemy : MonoBehaviour
     
     public int projLimit = 5;
 
+    public int damage;
+
 
     [Header("Temp material stuff")]
 
@@ -108,6 +110,8 @@ public abstract class BaseEnemy : MonoBehaviour
             StartCoroutine(IFrames());
         }
     }
+
+    
 
     void Awake(){
         Debug.Log(gameObject);
