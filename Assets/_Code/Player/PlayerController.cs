@@ -465,7 +465,7 @@ public class PlayerController : MonoBehaviour
            
         }
         
-        rb.linearVelocity = velocity;
+        rb.linearVelocity = new Vector3(velocity.x,Mathf.Clamp(velocity.y, -1_000_000, 10),velocity.z);
         // StartCoroutine(LerpVelocity(0.5f, rb.linearVelocity, velocity));
 
        
