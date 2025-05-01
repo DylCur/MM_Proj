@@ -68,6 +68,15 @@ public class CombatController : MonoBehaviour
                 Debug.Log($"Hit {be.gameObject.name}");
                 be.TakeDamage(damage);
             }
+            else{
+                ProjectileController pj = col.GetComponent<ProjectileController>();
+                if(pj!=null){
+                    if(pj.canBeAttacked){
+                        Destroy(pj);
+                    }
+                }
+
+            }
         }
 
         

@@ -89462,7 +89462,7 @@ MonoBehaviour:
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
-  m_SelectedVertices: 0f000000
+  m_SelectedVertices: 
 --- !u!4 &1433625351
 Transform:
   m_ObjectHideFlags: 0
@@ -97322,7 +97322,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5085983396220078226, guid: d4211814a6a149142a4832bf221360ef, type: 3}
       propertyPath: attackRange
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5766768589114410277, guid: d4211814a6a149142a4832bf221360ef, type: 3}
       propertyPath: m_LocalPosition.x

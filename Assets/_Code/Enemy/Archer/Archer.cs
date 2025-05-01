@@ -24,6 +24,13 @@ public class Archer : BaseEnemy
 
 
     void ShootArrow(){
+        
+        foreach(GameObject obj in arrows){
+            if(obj == null){
+                arrows.Remove(obj);
+            }
+        }
+        
         if(arrows.Count < projLimit){
             GameObject ar = Instantiate(arrow, transform.position, Quaternion.identity);
             ar.GetComponent<ArrowController>().parent = GetComponent<CapsuleCollider>();

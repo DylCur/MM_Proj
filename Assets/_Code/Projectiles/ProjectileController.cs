@@ -26,7 +26,7 @@ public abstract class ProjectileController : MonoBehaviour
     public float maxHomingRange = 10f;
     public PJMT mt = PJMT.forward;
     Vector3 direction;
-
+    public bool canBeAttacked = true;
 
     [HideInInspector] public Rigidbody rb;
     Vector3 playerDistance;

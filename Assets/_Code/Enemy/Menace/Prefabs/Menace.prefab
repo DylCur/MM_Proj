@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 822344189684390990}
   - component: {fileID: 2187820634630035875}
   - component: {fileID: 5235277458012522666}
+  - component: {fileID: 1478962882492993324}
   m_Layer: 6
   m_Name: Menace
   m_TagString: enemy
@@ -160,6 +161,9 @@ MonoBehaviour:
   attackRange: 10
   maxYRange: 10
   projLimit: 5
+  damage: 0
+  hurtMat: {fileID: 0}
+  defaultMat: {fileID: 0}
   iframes: 0.1
   canTakeDamage: 1
   attackTime: 0.2
@@ -170,3 +174,26 @@ MonoBehaviour:
   - 0
   fireballs: []
   fireball: {fileID: 79242911491850018, guid: 7a92f0761ba13cc48bfb3b12a4d225e9, type: 3}
+--- !u!136 &1478962882492993324
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6999095682265966786}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1
+  m_Height: 4
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}

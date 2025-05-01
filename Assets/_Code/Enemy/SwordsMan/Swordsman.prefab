@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5627177332296049084}
   - component: {fileID: 4110768436937739137}
   - component: {fileID: 5709539603627352580}
+  - component: {fileID: 9185125211315924122}
   m_Layer: 6
   m_Name: Swordsman
   m_TagString: enemy
@@ -133,6 +134,7 @@ MonoBehaviour:
   attackRange: 1
   maxYRange: 10
   projLimit: 5
+  damage: 0
   hurtMat: {fileID: 2100000, guid: 9591e2266017eeea19e9f65363d7d1c7, type: 2}
   defaultMat: {fileID: 2100000, guid: 5abb7d928fe6135b6b03ca3445055ae5, type: 2}
   iframes: 0.1
@@ -169,3 +171,26 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!136 &9185125211315924122
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7479715369120754892}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.75
+  m_Height: 3.5
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}

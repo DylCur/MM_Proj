@@ -16,6 +16,14 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 4327644134247021224, guid: bae0c787592e92445af6d1b1b5a4f2f2, type: 3}
+      propertyPath: hurtMat
+      value: 
+      objectReference: {fileID: 2100000, guid: 9591e2266017eeea19e9f65363d7d1c7, type: 2}
+    - target: {fileID: 4327644134247021224, guid: bae0c787592e92445af6d1b1b5a4f2f2, type: 3}
+      propertyPath: defaultMat
+      value: 
+      objectReference: {fileID: 2100000, guid: 5abb7d928fe6135b6b03ca3445055ae5, type: 2}
     - target: {fileID: 6382736641758137817, guid: bae0c787592e92445af6d1b1b5a4f2f2, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -59,5 +67,36 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2000265381827342713, guid: bae0c787592e92445af6d1b1b5a4f2f2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6910113669330196482}
   m_SourcePrefab: {fileID: 100100000, guid: bae0c787592e92445af6d1b1b5a4f2f2, type: 3}
+--- !u!1 &8520984158857389704 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2000265381827342713, guid: bae0c787592e92445af6d1b1b5a4f2f2, type: 3}
+  m_PrefabInstance: {fileID: 7891084134091102193}
+  m_PrefabAsset: {fileID: 0}
+--- !u!136 &6910113669330196482
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8520984158857389704}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.7
+  m_Height: 3
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
