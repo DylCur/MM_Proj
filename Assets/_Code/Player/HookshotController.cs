@@ -39,6 +39,7 @@ public class HookshotController : MonoBehaviour
 
     IEnumerator PullEnemy(RaycastHit hit, BaseEnemy ec, float a){
         enemy = ec; 
+        ec.s = EState.hooked;
 
         float f = 0.01f;
         yield return new WaitForSeconds(f);
@@ -53,9 +54,15 @@ public class HookshotController : MonoBehaviour
             enemy=null;
         }
 
+        StartCoroutine(HookStateCD(ec));
         shouldBreak=false;
 
     }   
+
+    IEnumerator HookStateCD(BaseEnemy ec){
+        yield return new WaitForSeconds(10f);
+        ec.s = EState.seeking;
+    }
 
     void Hook(){
         if(Physics.Raycast(transform.position, pc.playerCamera.transform.forward, out RaycastHit hit, range, enemyLayer)){ 

@@ -79,7 +79,7 @@ public class EnemySpawner : MonoBehaviour
         if(currentEnemies.Count > 0 && waveSpawned){
             // If there is an alive enemy, return false
             foreach(BaseEnemy be in currentEnemies){
-                if(be.s != BaseEnemy.EState.dead){
+                if(be.s != EState.dead){
                     return false;
                 }
             }

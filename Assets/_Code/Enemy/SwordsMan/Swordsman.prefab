@@ -134,7 +134,7 @@ MonoBehaviour:
   attackRange: 1
   maxYRange: 10
   projLimit: 5
-  damage: 0
+  damage: 10
   hurtMat: {fileID: 2100000, guid: 9591e2266017eeea19e9f65363d7d1c7, type: 2}
   defaultMat: {fileID: 2100000, guid: 5abb7d928fe6135b6b03ca3445055ae5, type: 2}
   iframes: 0.1

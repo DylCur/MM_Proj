@@ -6,6 +6,14 @@ using MathsAndSome;
 using UnityEngine;
 using UnityEngine.AI;
 
+public enum EState{
+    seeking = 0, // Idle, checking for the player
+    hunting = 1, // Actively chasing the player
+    attacking = 2, // In attack range and attacking
+    hooked = 3, // Has been hooked
+    dead = 4    // Health <= 0
+}
+
 public abstract class BaseEnemy : MonoBehaviour
 {
 
@@ -35,13 +43,7 @@ public abstract class BaseEnemy : MonoBehaviour
 
     [SerializeField] float iframes = 0.1f;
 
-    public enum EState{
-        seeking = 0, // Idle, checking for the player
-        hunting = 1, // Actively chasing the player
-        attacking = 2, // In attack range and attacking
-        hooked = 3, // Has been hooked
-        dead = 4    // Health <= 0
-    }
+    
 
     // Was abstract but was the same over all enemies
     public IEnumerator Seek(){
