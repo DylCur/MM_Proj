@@ -28,9 +28,9 @@ public class CombatController : MonoBehaviour
     [SerializeField] KeyCode killallKey = KeyCode.E;
 
     void Die(){
-        // PlayDeathAnimation
-        // DoAdminStuff
-        // AllowForRespawn
+        //TODO PlayDeathAnimation
+        //TODO DoAdminStuff
+        //TODO AllowForRespawn
         
     }
 
@@ -53,7 +53,8 @@ public class CombatController : MonoBehaviour
         List<Collider> hitObjs = Physics.OverlapBox
         (
             boxPos, 
-            boxSize
+            boxSize,
+            mas.GetPlayer().forwardObject.transform.rotation
         ).ToList();
 
         
@@ -110,9 +111,17 @@ public class CombatController : MonoBehaviour
 
     void OnDrawGizmos()
 
-    {   Vector3 boxPos = transform.position + transform.forward * attackOut;
+    {  
+        Vector3 boxPos = transform.position + transform.forward * attackOut;
         Vector3 boxSize = new Vector3(attackRange,atkRadius,atkRadius);
-        
+
+        List<Collider> hitObjs = Physics.OverlapBox
+        (
+            boxPos, 
+            boxSize,
+            Camera.main.transform.localRotation
+        ).ToList();
+
         Gizmos.DrawWireCube(boxPos, boxSize);
     }
 }

@@ -90,6 +90,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] [Range(1, 50)] float wallJumpForce = 100f;
     public float wjt = 0.5f;
     
+    
     /*
     bool shouldWallRun(){
         // Gets all of the colliders in wall running range
@@ -169,7 +170,7 @@ public class PlayerController : MonoBehaviour
         
 
     [Header("Misc")]
-    [SerializeField] GameObject forwardObject;
+    public GameObject forwardObject;
 
 
     bool shouldJump => canJump && Input.GetKeyDown(jumpKey) && grounded();
