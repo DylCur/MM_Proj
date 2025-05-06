@@ -8,6 +8,7 @@ namespace Globals{
     {
         public const string playerTag = "Player";
         public const string swordsmanTag = "swordsman";
+        public const string enemyTag = "enemy";
         
         // This contains the max range for AI's when raycasting
         public const float maxAiCheckRange = 10000f;

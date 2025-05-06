@@ -5,7 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using MathsAndSome;
 using UnityEngine;
-
+using Globals;
 
 public class CombatController : MonoBehaviour
 {
@@ -46,7 +46,7 @@ public class CombatController : MonoBehaviour
     IEnumerator Attack(){
 
         canAttack = false;
-
+        /*
         Vector3 boxPos = transform.position + transform.forward * attackOut;
         Vector3 boxSize = new Vector3(attackRange,atkRadius,atkRadius);
 
@@ -56,9 +56,34 @@ public class CombatController : MonoBehaviour
             boxSize,
             mas.GetPlayer().forwardObject.transform.rotation
         ).ToList();
+        */
+        if(Physics.Raycast(transform.position, Camera.main.transform.forward, out RaycastHit hit, attackRange)){
+            
+            BaseEnemy be = hit.collider.GetComponent<BaseEnemy>();
+            
+            
+            if(be != null){
+                Debug.Log($"Hit {be.gameObject.name}");
+                be.TakeDamage(damage);
+            }
+            
+            else{
+                ProjectileController pj = hit.collider.GetComponent<ProjectileController>();
+                if(pj!=null){
+                    if(pj.canBeAttacked){
+                        Destroy(pj);
+                    }
+                }
+
+            }
+            
+            if(hit.collider.tag == glob.enemyTag){
+                Debug.Log("Hit Enemy");
+            }
+        }   
 
         
-        
+        /*
         Debug.Log("Player Attacked");
 
         mas.RemovePlayerFromList(hitObjs);
@@ -78,7 +103,7 @@ public class CombatController : MonoBehaviour
                 }
 
             }
-        }
+        */
 
         
 
