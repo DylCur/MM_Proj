@@ -108,7 +108,7 @@ public abstract class ProjectileController : MonoBehaviour
         }
 
         // Check to see if the other is a projectile
-        if(other.GetComponent<ProjectileController>() == null){
+        if(other.GetComponent<ProjectileController>() == null && other.GetComponent<BaseEnemy>() == null){
             if(other != parent){
                 StartCoroutine(DestroyObj(0f));
             }

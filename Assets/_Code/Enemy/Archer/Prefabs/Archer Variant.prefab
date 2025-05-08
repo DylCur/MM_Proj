@@ -17,6 +17,10 @@ PrefabInstance:
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4327644134247021224, guid: bae0c787592e92445af6d1b1b5a4f2f2, type: 3}
+      propertyPath: arrow
+      value: 
+      objectReference: {fileID: 79242911491850018, guid: 7a92f0761ba13cc48bfb3b12a4d225e9, type: 3}
+    - target: {fileID: 4327644134247021224, guid: bae0c787592e92445af6d1b1b5a4f2f2, type: 3}
       propertyPath: hurtMat
       value: 
       objectReference: {fileID: 2100000, guid: 9591e2266017eeea19e9f65363d7d1c7, type: 2}
