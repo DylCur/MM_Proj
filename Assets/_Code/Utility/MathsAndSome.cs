@@ -12,6 +12,16 @@ namespace MathsAndSome{
             return new Vector3(Mathf.Lerp(v1.x, v2.x, a),Mathf.Lerp(v1.y, v2.y, a),Mathf.Lerp(v1.z, v2.z, a)    );
         }
 
+        public static Vector3 SubVectors(List<Vector3> v3s){
+            Vector3 vector = v3s[0];
+            // Skip root
+            for(int i = 1;i < v3s.Count;i++){
+                vector = new Vector3(vector.x-v3s[i].x,vector.y-v3s[i].y,vector.z-v3s[i].z);
+            }
+
+            return vector;
+        }
+
         // This returns the absolute value of a vector (All numbers are positive)
         public static Vector3 AbsVector(Vector3 v3){
             // If the vector is already all positive, there is no need to compute the abs of it
@@ -151,8 +161,6 @@ namespace MathsAndSome{
             0);
 
             return Quaternion.Euler(v3);
-
-
         }
 
         public static float CalculateHypotenuse(Vector2 v){

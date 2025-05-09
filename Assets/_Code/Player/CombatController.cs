@@ -10,22 +10,20 @@ using Globals;
 public class CombatController : MonoBehaviour
 {
     public int health;
-    public int damage;
- 
     
     [HideInInspector] public KeyCode atkKey = KeyCode.Mouse0;
     bool canAttack;
-
     bool shouldAttack => canAttack && Input.GetKeyDown(atkKey);
-    [SerializeField] float atkCD = 0.2f;
-    [SerializeField] float attackOut = 5f;
-    
-    [Description("This will dictate how far up and across")]
-    [SerializeField] float atkRadius = 0.5f;
+    MeshRenderer bowMesh;
 
-    [Description("This will dictate how far out the attack goes")]
-    [SerializeField] float attackRange = 3f;
     [SerializeField] KeyCode killallKey = KeyCode.E;
+
+    [Header("Weapons")]
+
+    [SerializeField] BowScriptable[] bows;
+    BowScriptable currentWeapon; 
+    bool canSwitchWeapon = true;
+
 
     void Die(){
         //TODO PlayDeathAnimation
@@ -43,7 +41,8 @@ public class CombatController : MonoBehaviour
         }
     }
 
-    IEnumerator Attack(){
+    // Parses so that if you switch weapon, it will end the cd of other weapon and not this one (this is probably bad)
+    IEnumerator Attack(BowScriptable cw){
 
         canAttack = false;
         /*
@@ -57,14 +56,13 @@ public class CombatController : MonoBehaviour
             mas.GetPlayer().forwardObject.transform.rotation
         ).ToList();
         */
-        if(Physics.Raycast(transform.position, Camera.main.transform.forward, out RaycastHit hit, attackRange)){
+        if(Physics.Raycast(transform.position, Camera.main.transform.forward, out RaycastHit hit, currentWeapon.range)){
             
             BaseEnemy be = hit.collider.GetComponent<BaseEnemy>();
             
-            
             if(be != null){
                 Debug.Log($"Hit {be.gameObject.name}");
-                be.TakeDamage(damage);
+                be.TakeDamage(cw.damage);
             }
             
             else{
@@ -72,43 +70,31 @@ public class CombatController : MonoBehaviour
                 if(pj!=null){
                     if(pj.canBeAttacked){
                         Destroy(pj);
-                    }
+                    }   
                 }
 
             }
+
+            if(cw.e.explode){
+                Collider[] cols = Physics.OverlapSphere(hit.point, cw.e.radius);
+
+                foreach(Collider col in cols){
+                    BaseEnemy te = col.GetComponent<BaseEnemy>();
+
+                    if(te != null){
+                        te.TakeDamage(cw.e.damage);
+                    }
+                }
+            }
+
+
             
             if(hit.collider.tag == glob.enemyTag){
                 Debug.Log("Hit Enemy");
             }
         }   
 
-        
-        /*
-        Debug.Log("Player Attacked");
-
-        mas.RemovePlayerFromList(hitObjs);
-
-        foreach(Collider col in hitObjs){
-            BaseEnemy be = col.GetComponent<BaseEnemy>();
-            if(be != null){
-                Debug.Log($"Hit {be.gameObject.name}");
-                be.TakeDamage(damage);
-            }
-            else{
-                ProjectileController pj = col.GetComponent<ProjectileController>();
-                if(pj!=null){
-                    if(pj.canBeAttacked){
-                        Destroy(pj);
-                    }
-                }
-
-            }
-        */
-
-        
-
-
-        yield return new WaitForSeconds(atkCD);
+        yield return new WaitForSeconds(cw.atkCD);
 
         canAttack = true;
 
@@ -116,13 +102,36 @@ public class CombatController : MonoBehaviour
 
     void Start(){
         canAttack = true;
+        currentWeapon = bows[0];
     }
    
+    void SwitchWeapons(){
+        if(canSwitchWeapon){
+            if(Input.GetKeyDown(KeyCode.Alpha1) && bows[0] != null){
+                currentWeapon = bows[0];  
+            }
+            if(Input.GetKeyDown(KeyCode.Alpha2) && bows[1] != null){
+                currentWeapon = bows[1];  
+            }
+            if(Input.GetKeyDown(KeyCode.Alpha3) && bows[2] != null){
+                currentWeapon = bows[2];  
+            }
+            if(Input.GetKeyDown(KeyCode.Alpha4) && bows[3] != null){
+                currentWeapon = bows[3];  
+            }
+
+            if(gameObject.transform.GetChild(2).GetComponent<MeshFilter>().mesh != currentWeapon.mesh){
+                gameObject.transform.GetChild(2).GetComponent<MeshFilter>().mesh = currentWeapon.mesh;
+            }
+
+
+        }
+    }
 
     void Update(){
         if(shouldAttack){
             Debug.Log("Should");
-            StartCoroutine(Attack());
+            StartCoroutine(Attack(currentWeapon));
         }
 
         if(Input.GetKeyDown(killallKey)){
@@ -132,21 +141,9 @@ public class CombatController : MonoBehaviour
                 gol.GetComponent<BaseEnemy>().TakeDamage(1_000_000_000);
             }
         }
+
+        SwitchWeapons();
     }
 
-    void OnDrawGizmos()
-
-    {  
-        Vector3 boxPos = transform.position + transform.forward * attackOut;
-        Vector3 boxSize = new Vector3(attackRange,atkRadius,atkRadius);
-
-        List<Collider> hitObjs = Physics.OverlapBox
-        (
-            boxPos, 
-            boxSize,
-            Camera.main.transform.localRotation
-        ).ToList();
-
-        Gizmos.DrawWireCube(boxPos, boxSize);
-    }
+   
 }

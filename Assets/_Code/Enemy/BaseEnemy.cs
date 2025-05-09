@@ -6,6 +6,18 @@ using MathsAndSome;
 using UnityEngine;
 using UnityEngine.AI;
 
+
+public class AddedForce{
+    
+    public Vector3 force;
+
+    public IEnumerator ReduceForce(){
+        // mas.SubVectors()
+        yield return new WaitForSeconds(0.1f);
+    }
+}
+
+
 public abstract class BaseEnemy : MonoBehaviour
 {
 
@@ -92,9 +104,15 @@ public abstract class BaseEnemy : MonoBehaviour
     }
 
     IEnumerator ChangeMaterial(){
-        GetComponent<MeshRenderer>().material = hurtMat;
+        if(GetComponent<MeshRenderer>() != null){
+            GetComponent<MeshRenderer>().material = hurtMat;
+        }
+
         yield return new WaitForSeconds(0.2f);
-        GetComponent<MeshRenderer>().material = defaultMat;
+        
+        if(GetComponent<MeshRenderer>() != null){
+            GetComponent<MeshRenderer>().material = defaultMat;
+        }
     }
 
     public void TakeDamage(int damage){
